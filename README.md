@@ -1,0 +1,227 @@
+# Codebase Genius 🧠
+
+An AI-powered, multi-agent system that automatically generates high-quality documentation for any software repository.
+
+## 🌟 Features
+
+- **Automated Repository Analysis**: Clone and analyze any public GitHub repository
+- **Multi-Agent Architecture**: Coordinated agents for mapping, analysis, and documentation
+- **Code Context Graph (CCG)**: Visual representation of function and class relationships
+- **Smart Documentation**: Generate comprehensive markdown with diagrams
+- **Python & Jac Optimized**: Specialized parsers for Python and Jac codebases
+- **HTTP API**: RESTful interface for easy integration
+
+## 🏗️ Architecture
+
+Codebase Genius uses a multi-agent pipeline built with Jac's Object-Spatial Programming paradigm:
+
+1. **Code Genius (Supervisor)** - Orchestrates the entire workflow
+2. **Repo Mapper** - Clones repos, generates file trees, and summarizes READMEs
+3. **Code Analyzer** - Parses source files and builds the Code Context Graph
+4. **DocGenie** - Synthesizes final markdown documentation with diagrams
+
+## 📋 Prerequisites
+
+- Python 3.10 or higher
+- Git installed
+- Jac language installed (`pip install jaclang`)
+
+## 🚀 Quick Start
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/jaseci-labs/Agentic-AI.git
+cd Agentic-AI/codebase_genius
+```
+
+### 2. Set Up Virtual Environment
+
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate it
+# On Windows:
+.\venv\Scripts\Activate.ps1
+
+# On Linux/Mac:
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure Environment
+
+Create a `.env` file in the codebase_genius directory:
+
+```bash
+# LLM API Keys (choose one)
+OPENAI_API_KEY=your_openai_key_here
+# OR
+GOOGLE_API_KEY=your_gemini_key_here
+
+# Optional: Custom output directory
+OUTPUT_DIR=./outputs
+```
+
+### 5. Run the Jac Server
+
+```bash
+jac serve main.jac
+```
+
+The server will start on `http://localhost:8000`
+
+### 6. Use the API
+
+**Analyze a repository:**
+
+```bash
+curl -X POST http://localhost:8000/walker/analyze_repository \
+  -H "Content-Type: application/json" \
+  -d '{
+    "repo_url": "https://github.com/username/repo-name"
+  }'
+```
+
+**Check analysis status:**
+
+```bash
+curl http://localhost:8000/walker/check_status?job_id=<job_id>
+```
+
+**Download documentation:**
+
+```bash
+curl http://localhost:8000/walker/get_documentation?repo_name=<repo_name>
+```
+
+## 🖥️ Using the Frontend
+
+We also provide a Streamlit frontend for a better user experience:
+
+```bash
+cd FE
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+Then open your browser to `http://localhost:8501`
+
+## 📁 Project Structure
+
+```
+codebase_genius/
+├── main.jac                 # Main API server entry point
+├── requirements.txt         # Python dependencies
+├── .env                     # Environment variables (create this)
+├── README.md               # This file
+├── agents/                 # Agent implementations
+│   ├── supervisor.jac      # Code Genius orchestrator
+│   ├── repo_mapper.jac     # Repository mapping agent
+│   ├── code_analyzer.jac   # Code analysis agent
+│   └── doc_genie.jac       # Documentation generator
+├── models/                 # Data models (nodes & edges)
+│   └── nodes.jac          # Graph node definitions
+├── utils/                  # Utility functions
+│   ├── git_helpers.jac    # Git operations
+│   ├── parsers.jac        # Code parsers
+│   └── diagram_gen.jac    # Diagram generation
+├── outputs/                # Generated documentation
+└── FE/                     # Streamlit frontend
+    ├── app.py
+    └── requirements.txt
+```
+
+## 🔧 Configuration
+
+### Supported LLM Providers
+
+- OpenAI (GPT-4, GPT-3.5)
+- Google Gemini (gemini-1.5-flash, gemini-1.5-pro)
+- Any LiteLLM-compatible provider
+
+### Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `OPENAI_API_KEY` | OpenAI API key | One of the API keys |
+| `GOOGLE_API_KEY` | Google Gemini API key | One of the API keys |
+| `OUTPUT_DIR` | Custom output directory | No (default: ./outputs) |
+| `MAX_FILE_SIZE` | Max file size to analyze (MB) | No (default: 10) |
+
+## 📊 Example Output
+
+Generated documentation includes:
+
+- **Project Overview**: Summary from README
+- **File Structure**: Complete directory tree
+- **Code Context Graph**: Visual diagram of relationships
+- **API Reference**: Functions and classes with signatures
+- **Installation Guide**: Setup instructions
+- **Usage Examples**: Code snippets and examples
+
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+jac test tests/
+```
+
+Test on a sample repository:
+
+```bash
+# Using the CLI
+jac run main.jac --repo-url https://github.com/jaseci-labs/jaseci
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING.md).
+
+## 📝 License
+
+This project is part of the Agentic-AI repository by Jaseci Labs.
+
+## 🆘 Troubleshooting
+
+### Common Issues
+
+**Issue**: "jac: command not found"
+```bash
+pip install --upgrade jaclang
+```
+
+**Issue**: "Failed to clone repository"
+- Ensure the repository URL is correct and publicly accessible
+- Check your internet connection
+- Verify Git is installed: `git --version`
+
+**Issue**: "API key not found"
+- Make sure you've created a `.env` file
+- Ensure the API key variable name matches exactly
+- Restart the server after updating `.env`
+
+## 📚 Resources
+
+- [Jac Language Documentation](https://www.jac-lang.org/)
+- [Jaseci GitHub](https://github.com/Jaseci-Labs/jaseci)
+- [byLLM Documentation](https://www.jac-lang.org/learn/jac-byllm/)
+
+## 🎯 Roadmap
+
+- [ ] Support for more programming languages (JavaScript, Go, Rust)
+- [ ] Advanced code metrics (cyclomatic complexity, test coverage)
+- [ ] Integration with CI/CD pipelines
+- [ ] Real-time collaboration features
+- [ ] Export to PDF/HTML formats
+
+---
+
+Built with ❤️ using [Jac Language](https://www.jac-lang.org/) and Jaseci ecosystem

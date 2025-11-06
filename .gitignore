@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Jac
+*.jbc
+.jac_gen/
+
+# Environment
+.env
+.env.local
+
+# Outputs
+outputs/*
+!outputs/.gitkeep
+temp/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+*.orig
+
+# Dependencies
+node_modules/
