@@ -1,52 +1,183 @@
-# Codebase Genius - Quick Start Guide
+# 🚀 Quick Start Guide
 
-## 🎯 Overview
+Get Codebase Genius running in 5 minutes!
 
-Codebase Genius is an AI-powered, multi-agent system built with Jac language that automatically generates comprehensive documentation for GitHub repositories.
+## Prerequisites
 
-## ⚡ Quick Start (5 minutes)
+- Python 3.10+
+- Git
+- Google Gemini API key (free from https://aistudio.google.com/app/apikey)
 
-### 1. Setup
-
-```powershell
-# Run the setup script
-.\setup.ps1
-```
-
-Or manually:
-
-```powershell
-# Create virtual environment
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Create .env file
-Copy-Item .env.example .env
-# Edit .env and add your API key
-```
-
-### 2. Configure API Key
-
-Edit `.env` file and add your API key:
+## Step 1: Setup (2 minutes)
 
 ```bash
-# For OpenAI
-OPENAI_API_KEY=your_key_here
+# Navigate to codebase_genius
+cd codebase_genius
 
-# OR for Google Gemini
-GOOGLE_API_KEY=your_key_here
+# Create virtual environment
+python -m venv venv
+
+# Activate it
+.\venv\Scripts\Activate.ps1  # Windows
+# OR
+source venv/bin/activate     # Linux/Mac
+
+# Install backend dependencies
+pip install -r requirements.txt
 ```
 
-### 3. Start the Backend Server
+## Step 2: Configure (1 minute)
 
-```powershell
+Create `.env` file:
+```bash
+GEMINI_API_KEY=your_api_key_here
+BACKEND_URL=http://localhost:8000
+```
+
+## Step 3: Start Backend (1 minute)
+
+```bash
 jac serve main.jac
 ```
 
-The server will start on `http://localhost:8000`
+Expected output:
+```
+INFO:     Uvicorn running on http://127.0.0.1:8000
+```
+
+## Step 4: Start Frontend (1 minute)
+
+Open **new terminal** in same folder:
+
+```bash
+# Activate venv again if needed
+.\venv\Scripts\Activate.ps1  # Windows
+
+# Install frontend deps
+cd frontend
+pip install -r requirements.txt
+
+# Run Streamlit app
+streamlit run app.py
+```
+
+Expected output:
+```
+Local URL: http://localhost:8501
+```
+
+## Step 5: Use It!
+
+1. Open http://localhost:8501 in browser
+2. Paste a GitHub URL (e.g., https://github.com/octocat/Hello-World)
+3. Click "Generate Documentation"
+4. Download the markdown file ⬇️
+
+## 📊 What Happens Behind the Scenes
+
+```
+┌─────────────────────────┐
+│   Frontend (Streamlit)   │  You interact here
+└────────────┬────────────┘
+             │ HTTP POST
+             ▼
+┌─────────────────────────┐
+│ Backend JAC Server      │  Orchestrates workflow
+└────────────┬────────────┘
+             │ Subprocess
+             ▼
+┌─────────────────────────┐
+│ Python Orchestrator     │
+│ • Clone repo            │
+│ • Parse code            │
+│ • Call Gemini AI        │
+│ • Generate markdown     │
+└────────────┬────────────┘
+             │ Result
+             ▼
+┌─────────────────────────┐
+│ Frontend Displays Docs   │  You download here
+└─────────────────────────┘
+```
+
+## 🧪 Test It
+
+Try these example repos:
+- `https://github.com/octocat/Hello-World` (Simple, fast)
+- `https://github.com/python/cpython` (Complex, slower)
+
+## 🐛 Troubleshooting
+
+### Port Already in Use
+```bash
+# JAC uses 8000, Streamlit uses 8501
+# Kill processes or use different ports:
+streamlit run app.py --server.port 8502
+```
+
+### API Key Error
+- Check GEMINI_API_KEY in .env
+- Get free key: https://aistudio.google.com/app/apikey
+- Make sure .env file exists in codebase_genius/
+
+### Module Not Found
+```bash
+# Make sure virtual env is activated
+pip list  # Should show streamlit, requests, etc.
+```
+
+### Connection Refused
+- Check if JAC server is running
+- Ensure it's on http://localhost:8000
+
+## 📚 File Descriptions
+
+| File | Purpose |
+|------|---------|
+| `main.jac` | JAC API server with endpoints |
+| `python/orchestrator.py` | Main analysis coordinator |
+| `python/repo_parser.py` | Code parsing engine |
+| `python/gemini_connector.py` | AI integration |
+| `frontend/app.py` | Streamlit web interface |
+
+## 🔌 API Endpoints
+
+**Generate Docs**
+```bash
+curl -X POST http://localhost:8000/walker/generate_docs \
+  -H "Content-Type: application/json" \
+  -d '{"repo_url":"https://github.com/user/repo","session_id":""}'
+```
+
+**Check Status**
+```bash
+curl -X POST http://localhost:8000/walker/get_status
+```
+
+## 💾 Output
+
+Generated documentation saved to:
+```
+outputs/
+└── repo-name/
+    └── docs.md
+```
+
+## 🆘 Need Help?
+
+1. Check UPDATE_SUMMARY.md for detailed changes
+2. Review README.md for full documentation
+3. Check .env.example for configuration options
+
+## 🎉 Done!
+
+You now have a working AI documentation generator!
+
+Next: Deploy to cloud (see working/jaseci-proj for examples)
+
+---
+
+**Questions?** Check the generated docs in `outputs/` folder!
 
 ### 4. Start the Frontend (Optional)
 

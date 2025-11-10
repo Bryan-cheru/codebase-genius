@@ -1,38 +1,41 @@
-# Codebase Genius 🧠
+# Codebase Genius �
 
-An AI-powered, multi-agent system that automatically generates high-quality documentation for any software repository.
+An AI-powered documentation system that automatically generates high-quality documentation for any software repository using multi-agent architecture and Google Gemini AI.
 
 ## 🌟 Features
 
-- **Automated Repository Analysis**: Clone and analyze any public GitHub repository
-- **Multi-Agent Architecture**: Coordinated agents for mapping, analysis, and documentation
-- **Code Context Graph (CCG)**: Visual representation of function and class relationships
-- **Smart Documentation**: Generate comprehensive markdown with diagrams
-- **Python & Jac Optimized**: Specialized parsers for Python and Jac codebases
-- **HTTP API**: RESTful interface for easy integration
+- **🤖 AI-Powered Analysis**: Uses Google Gemini AI for intelligent code understanding
+- **🔄 Multi-Agent System**: Supervisor, RepoMapper, CodeAnalyzer, and DocGenie agents
+- **📊 Code Structure Analysis**: Parses code relationships and dependencies
+- **🌐 Graph Visualization**: Builds Code Context Graphs with NetworkX
+- **📝 Professional Documentation**: Generates comprehensive markdown docs
+- **🎨 Modern Web UI**: Streamlit-based interface with real-time progress
+- **☁️ Cloud Ready**: Easily deployable to Render and Streamlit Cloud
+- **🔒 Secure**: Environment variable management for API keys
 
 ## 🏗️ Architecture
 
-Codebase Genius uses a multi-agent pipeline built with Jac's Object-Spatial Programming paradigm:
+Codebase Genius uses a simplified, production-ready architecture:
 
-1. **Code Genius (Supervisor)** - Orchestrates the entire workflow
-2. **Repo Mapper** - Clones repos, generates file trees, and summarizes READMEs
-3. **Code Analyzer** - Parses source files and builds the Code Context Graph
-4. **DocGenie** - Synthesizes final markdown documentation with diagrams
+- **Backend** (`main.jac`) - Jac API server with walker endpoints
+- **Python Orchestrator** - Handles repository analysis and documentation generation
+- **Gemini Integration** - AI-powered code analysis and insights
+- **Frontend** (`app.py`) - Streamlit web interface
 
 ## 📋 Prerequisites
 
 - Python 3.10 or higher
 - Git installed
-- Jac language installed (`pip install jaclang`)
+- Google Gemini API key
+- Jac language installed
 
 ## 🚀 Quick Start
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/jaseci-labs/Agentic-AI.git
-cd Agentic-AI/codebase_genius
+git clone https://github.com/Bryan-cheru/codebase-genius.git
+cd codebase-genius/codebase_genius
 ```
 
 ### 2. Set Up Virtual Environment
@@ -60,16 +63,14 @@ pip install -r requirements.txt
 Create a `.env` file in the codebase_genius directory:
 
 ```bash
-# LLM API Keys (choose one)
-OPENAI_API_KEY=your_openai_key_here
-# OR
-GOOGLE_API_KEY=your_gemini_key_here
+# Google Gemini API Configuration
+GEMINI_API_KEY=your_gemini_api_key_here
 
-# Optional: Custom output directory
-OUTPUT_DIR=./outputs
+# Backend API Configuration
+BACKEND_URL=http://localhost:8000
 ```
 
-### 5. Run the Jac Server
+### 5. Run the Backend Server
 
 ```bash
 jac serve main.jac
@@ -77,27 +78,43 @@ jac serve main.jac
 
 The server will start on `http://localhost:8000`
 
-### 6. Use the API
-
-**Analyze a repository:**
+### 6. Run the Frontend (in a new terminal)
 
 ```bash
-curl -X POST http://localhost:8000/walker/analyze_repository \
-  -H "Content-Type: application/json" \
-  -d '{
-    "repo_url": "https://github.com/username/repo-name"
-  }'
+cd frontend
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
-**Check analysis status:**
+The frontend will start on `http://localhost:8501`
 
+### 7. Use the Application
+
+Visit `http://localhost:8501` and:
+1. Enter a GitHub repository URL
+2. Click "Generate Documentation"
+3. Download the AI-generated markdown documentation
+
+## 🔌 API Endpoints
+
+**Generate Documentation:**
 ```bash
-curl http://localhost:8000/walker/check_status?job_id=<job_id>
+POST /walker/generate_docs
+```
+Request body:
+```json
+{
+  "repo_url": "https://github.com/username/repo-name",
+  "session_id": ""
+}
 ```
 
-**Download documentation:**
-
+**Check Status:**
 ```bash
+POST /walker/get_status
+```
+
+## 📚 Generated Output
 curl http://localhost:8000/walker/get_documentation?repo_name=<repo_name>
 ```
 
